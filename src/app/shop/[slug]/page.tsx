@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { formatPrice, getProductBySlug, products } from "@/lib/products";
+import { formatPrice, getProductBySlug, products, resolveProductImages } from "@/lib/products";
 import { BuyButton } from "./BuyButton";
+import { ProductGallery } from "./ProductGallery";
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
@@ -30,16 +31,22 @@ export default async function ProductPage({
   const product = getProductBySlug(slug);
   if (!product) notFound();
 
+  const images = resolveProductImages(product);
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
       <div className="grid gap-10 md:grid-cols-2">
-        <div
-          className={`flex aspect-square items-center justify-center rounded-2xl bg-gradient-to-br ${product.gradient}`}
-        >
-          <span className="rounded-full bg-black/20 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
-            Product photo coming soon
-          </span>
-        </div>
+        {images.length > 0 ? (
+          <ProductGallery images={images} alt={product.name} />
+        ) : (
+          <div
+            className={`flex aspect-square items-center justify-center rounded-2xl bg-gradient-to-br ${product.gradient}`}
+          >
+            <span className="rounded-full bg-black/20 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
+              Product photo coming soon
+            </span>
+          </div>
+        )}
         <div>
           <h1 className="text-3xl font-black text-brand-black sm:text-4xl">{product.name}</h1>
           <p className="mt-2 text-lg text-black/60">{product.tagline}</p>

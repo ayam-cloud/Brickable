@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
+
 export type Product = {
   slug: string;
   name: string;
@@ -9,6 +12,8 @@ export type Product = {
   minAge: number;
   accent: string;
   gradient: string;
+  /** Paths under /public, e.g. "/images/products/beach-1.jpg". Empty until real photos are added. */
+  images: string[];
 };
 
 export const products: Product[] = [
@@ -24,6 +29,7 @@ export const products: Product[] = [
     minAge: 3,
     accent: "#2AA9C2",
     gradient: "from-sky-400 to-amber-200",
+    images: ["/images/products/beach-1.jpg"],
   },
   {
     slug: "rocket",
@@ -37,6 +43,7 @@ export const products: Product[] = [
     minAge: 3,
     accent: "#7C4DFF",
     gradient: "from-indigo-900 to-fuchsia-700",
+    images: ["/images/products/rocket-1.jpg", "/images/products/rocket-2.jpg"],
   },
   {
     slug: "penguin",
@@ -50,11 +57,23 @@ export const products: Product[] = [
     minAge: 3,
     accent: "#1E3A5F",
     gradient: "from-slate-700 to-sky-300",
+    images: ["/images/products/penguin-1.jpg"],
   },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
+}
+
+/**
+ * Filters a product's configured image paths down to ones that actually exist in
+ * /public. Lets us wire up expected paths ahead of time and fall back to the
+ * gradient placeholder until the real files are dropped in.
+ */
+export function resolveProductImages(product: Product): string[] {
+  return product.images.filter((src) =>
+    fs.existsSync(path.join(process.cwd(), "public", src)),
+  );
 }
 
 export function formatPrice(cents: number): string {
