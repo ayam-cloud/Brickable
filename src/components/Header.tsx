@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Wordmark } from "./Logo";
+import { BrandWordmark } from "./Logo";
 
 const NAV_LINKS = [
   { href: "/shop", label: "Shop" },
@@ -12,7 +12,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-brand-black text-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link href="/" className="shrink-0">
-          <Wordmark className="text-xl sm:text-2xl" />
+          <BrandWordmark size="lg" />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-semibold uppercase tracking-wide sm:flex">
           {NAV_LINKS.map((link) => (

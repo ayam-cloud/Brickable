@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { StarBadge, Wordmark } from "./Logo";
+import { BrandIcon, BrandWordmark } from "./Logo";
 
 export function Footer() {
   return (
     <footer className="border-t border-white/10 bg-brand-black text-white">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-4">
         <div>
-          <Wordmark className="text-lg" />
+          <BrandWordmark size="sm" />
           <div className="mt-3 flex items-center gap-2 text-white/60">
-            <StarBadge className="h-6 w-6 text-brand-gold" />
+            <BrandIcon className="h-6 w-6" />
             <p className="text-sm">Custom LEGO&reg; Judaica, built by hand.</p>
           </div>
         </div>
